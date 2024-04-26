@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catinstag-deployment
+  labels:
+    app: catinstag
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: catinstag
+  template:
+    metadata:
+      labels:
+        app: catinstag
+    spec:
+      containers:
+        - name: catinstag
+          image: dellai/catinsta:1.0.0
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          env:
+            - name: CONNECTION_STRING
+              value: "Server=(localdb)\\mssqllocaldb;Database=CatInsta;Trusted_Connection=True;MultipleActiveResultSets=true"

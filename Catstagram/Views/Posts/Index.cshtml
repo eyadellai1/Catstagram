@@ -1,0 +1,84 @@
+﻿@model IEnumerable<Catstagram.Models.Post>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Cats</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Image)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Comment)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateAdded)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                <img decoding="async" src="@("~/image/"+item.Image)" asp-append-version="true" width="250px" height="250px" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                <p class="card-text post-comment">@Html.Raw(item.Comment)</p>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateAdded)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+
+@section Scripts {
+
+    <script>
+        $(document).ready(function () {
+            // Find all post comments containing hashtags
+            $('.post-comment').each(function () {
+                var comment = $(this).text();
+
+                // Regular expression to find hashtags
+                var hashtagRegex = /#(\w+)/g;
+
+                // Replace each hashtag with a link
+                var commentWithLinks = comment.replace(hashtagRegex, function (match, hashtag) {
+                    return '<a href="/Posts/Filter?searchString=' + hashtag + '">' + match + '</a>';
+                });
+
+                // Update the post comment with the linkified version
+                $(this).html(commentWithLinks);
+            });
+        });</script>
+
+
+}
