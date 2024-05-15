@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catstagram
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: catstagram
+  template:
+    metadata:
+      labels:
+        app: catstagram
+    spec:
+      containers:
+        - name: catstagram
+          image: catstagram
+          ports:
+            - containerPort: 80
+
